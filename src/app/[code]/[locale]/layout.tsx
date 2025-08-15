@@ -1,6 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { setRequestLocale } from 'next-intl/server';
 
 export default async function LocaleLayout({
   children,
@@ -14,6 +15,8 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  setRequestLocale(locale)
 
   return (
     <html lang={locale}>

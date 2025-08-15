@@ -7,6 +7,7 @@ interface PageProps {
   params: Promise<{
     code: string;
     locale: string;
+    slug: string
   }>;
 }
 
@@ -17,10 +18,10 @@ export function generateStaticParams() {
 }
 
 export default async function Home({ params }: PageProps) {
-  const { code, locale } = await params;
+  const { code, locale, slug } = await params;
   const t = await getTranslations('HomePage');
 
-  console.log({ code, locale })
+  console.log({ code, locale, slug })
 
   // Resolve flags using the precomputed code
   const showNewFeature = await showNewFeatureFlag(code, staticFlags);
@@ -30,16 +31,9 @@ export default async function Home({ params }: PageProps) {
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
         <h1 className="text-2xl font-bold">{t('title')}</h1>
         <p>{t('description')}</p>
+        <h3>Slug: {slug}</h3>
 
         <div className="bg-gray-100 border border-gray-400 text-gray-700 px-4 py-3 rounded mb-4">
           <strong>Precomputed Code:</strong> {code}
