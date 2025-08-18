@@ -7,7 +7,7 @@ interface PageProps {
   params: Promise<{
     code: string;
     locale: string;
-    slug: string
+    "product-id": string
   }>;
 }
 
@@ -18,10 +18,10 @@ export function generateStaticParams() {
 }
 
 export default async function Home({ params }: PageProps) {
-  const { code, locale, slug } = await params;
+  const { code, locale, "product-id": productId } = await params;
   const t = await getTranslations('HomePage');
 
-  console.log({ code, locale, slug })
+  console.log({ code, locale, slug: productId })
 
   // Resolve flags using the precomputed code
   const showNewFeature = await showNewFeatureFlag(code, staticFlags);
@@ -33,7 +33,7 @@ export default async function Home({ params }: PageProps) {
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <h1 className="text-2xl font-bold">{t('title')}</h1>
         <p>{t('description')}</p>
-        <h3>Slug: {slug}</h3>
+        <h3>ProductId: {productId}</h3>
 
         <div className="bg-gray-100 border border-gray-400 text-gray-700 px-4 py-3 rounded mb-4">
           <strong>Precomputed Code:</strong> {code}
